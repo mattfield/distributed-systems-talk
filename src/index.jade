@@ -1,0 +1,227 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Distributed Systems
+
+    // build:css styles/styles.css
+    //- Check out 'src/bower_components/prism/themes/' for available themes
+    link(rel='stylesheet', type='text/css', href='bower_components/prism/themes/prism-tomorrow.css')
+    link(rel='stylesheet', type='text/css', href='styles/main.css')
+    link(rel='stylesheet', type='text/css', href='styles/theme.css')
+    // endbuild
+
+  body.classic
+
+    article
+
+      section
+        h1 Distributed Systems
+
+      section
+        ul
+          h2 What is a distributed system?
+
+      section
+        h1 "distributed"?
+
+      section
+        ul
+          li
+            h2 Telecommunication
+          li Telephone and cellular networks
+          li Computer network (the Internet!)
+        ul
+          li
+            h2 Network applications
+          li www and p2p
+          li MMORPGs
+          li Distributed DBs
+        ul
+          li
+            h2 Real-time process control
+          li Aircraft control systems
+
+      section
+        h2 Properties
+        ul
+          li Concurrency of components
+          li Lack of a global clock
+          li Independent failure
+
+      section
+        h2 Concurrency of components
+        br
+        img(src="img/concurrency.png")
+
+      section
+        h2 Lack of global clock
+        br
+        img(src="img/clock.gif")
+
+      section
+        h2 Independent failure
+        br
+        img(src="img/failure.png", style="width: 60%;")
+
+      section
+        h2 Service-Oriented Architecture (SOA)
+
+      section
+        ul.bullet
+          li
+            h3 Dozens of small services &gt; one monolithic application
+          li
+            h3 Abstraction like functions are for code, but system level
+          li
+            h3 Easy to diagnose which system is having problems
+          li
+            h3 Failure == reduced functionality, not going down
+
+      section
+        h2 Message passing
+        br
+        ul.bullet
+          li Invoking behaviour through some intermediary service
+          li Send a message to a process which selects and invoke actual code, rather than invoking processes or functions by name
+          li OOP
+          li Erlang, Scala, Akka (actor model)
+
+      section
+        h1 ...
+
+      section
+        h1 CAP theorem
+
+      section
+        h2 Consistency
+        h2 Availability
+        h2 Partition tolerance
+        br
+        ul
+          li
+            br
+          li
+            h3 ...pick two
+
+      section
+        h2 C(onsistency)
+        br
+        ul
+          li All operations look as though they completed in a single instant / applied to all systems at the same logical time
+          li All nodes see the same data at the same time
+
+      section
+        h2 A(vailability)
+        br
+        ul
+          li Every request received by a functional service/system must result in a response
+          ul
+            li Must all terminate at some point
+          li Node failures do not prevent survivors from continuing to operate
+          li
+            code
+              pre 500 The Bees They're In My Eyes
+            p doesn't count as a proper response any more than a network timeout does
+
+      section
+        h2 P(artition tolerance)
+        br
+        ul
+          li System continues to operate despite message loss due to network and/or node failure
+          li Tolerance against a range of situations:
+          ul
+            li Dropped packets/messages between nodes
+            li Crashed servers
+            li Communication outages
+            li Network failures
+
+      section
+        h2 P is DS-specific
+        br
+        ul
+          li Single boxes (e.g. monolithic Oracle server w/ no duplication) incapable of experiencing network partition
+
+      section
+        h2 A CAP Adventure
+
+      section
+        h2 CAP in the wild
+
+      section
+        h2 Databases
+
+      section
+        img(src="img/DBs.png", style="width:75%;")
+
+      section
+        h2 CA
+        br
+        ul
+          li Redis, PostgreSQL, Neo4J
+          li Don't distribute data so partioning isn't an issue
+          li CA systems can't tell the difference between a node failure or a network failure
+          li Safest thing to do is stop accepting writes altogether
+
+      section
+        h2 CP
+        br
+        ul
+          li MongoDB
+          li In event of partition, unable to respond to certain types of query
+          li Prevent divergence by forcing asymmetric behaviour on both sides of partition
+          li Only keeps the majority partition and forces minority to stop accepting writes
+
+      section
+        h2 AP
+        br
+        ul
+          li CouchDB
+          li 2 or more server can replicate data, but doesn't guarantee consistency
+
+      section
+        h2 You can't sacrifice partition tolerance
+
+      section
+        h2 Failure is always an option
+        br
+        img(src="img/p.png", style="width:80%;")
+
+      section
+        h2 What do you want to give up?
+
+      section
+        h2 Consistency over Avalibility
+        ul
+          li
+            br
+          li In presence of partitions (i.e. failures), preserve guarantees of reads and writes by refusing to respond to certain requests
+          li May decide to shut down entirely, refuse writes, or only response to reads and writes whose "master" is inside the majority partition
+          li
+            strong Strong consistency
+
+      section
+        h2 Availibility over Consistency
+        ul
+          li
+            br
+          li In presence of partitions (i.e. failures), respond to all requests
+          li Potentially returns stale reads and accepting conflicting writes (resolved via casual ordering mechanisms/conflict-resolution)
+
+      section
+        h2 You can't have both!
+        br
+
+      section
+        h2 yield vs harvest
+
+    // build:js scripts/scripts.js
+    script(src='bower_components/bespoke.js/dist/bespoke.min.js')
+    script(src='bower_components/bespoke-keys/dist/bespoke-keys.min.js')
+    script(src='bower_components/bespoke-touch/dist/bespoke-touch.min.js')
+    script(src='bower_components/bespoke-bullets/dist/bespoke-bullets.min.js')
+    script(src='bower_components/bespoke-scale/dist/bespoke-scale.min.js')
+    script(src='bower_components/prism/prism.js')
+    script(src='scripts/main.js')
+    // endbuild
